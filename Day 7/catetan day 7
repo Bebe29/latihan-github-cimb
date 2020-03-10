@@ -1,0 +1,39 @@
+Catetan kelas:
+1. untuk penulisan function lebih baik ditulis diatas seblm progam utamanya
+2. penulisan objek bisa:
+    {produk: nama,
+    harga,    //kalau namanya sama bisa langsung ditulis key objeknya
+    stock,
+    qty: 0}
+3. kalau di dlm function ga da return => ga ada value yg dikembalikan ketika di call
+    function yg tdk ada return => dia melakukan suatu fungsi tertentu saja
+4. contoh function:
+    let c => c bernilai undefined
+    function ubahC(){ => fungsi untuk merubah nilai c
+        c=3
+    }
+    ubahC() => mengubah nilai c jd  karena functionnya dipanggil
+    console.log(1+2+c)
+
+    function tambah1(){
+        return 3
+    }
+    function tambah2(a){
+        return a
+    }
+    console.log(tambah1()+tambah2(2))
+5. untuk manggil function harus menggunakan tanda ()
+6. class:
+    constructor => parameter
+    super => yg sama dengan parentnya
+    this.xxx => propertynya
+    new => untuk manggil class
+
+
+PR 7 ==> dikumpulin bsk seblm jam 4
+1. pas beli, di menu user ada pilihan 1.Clothing 2.Hp 3.Buah
+2. kl msk k Clothing, ada size (SML) => yg bs input size admin aja
+3. kl msk k Hp, ada garansi (yes/no) => ksh alert kl hpnya ga da garansi trs tnyin mau tetep beli ato ga
+4. kl msk k buah, ada expired date (dd-mm-yyyy)
+5. user ga bs beli buah yg udh expired => hint: pake new Date()
+6. untuk menu admin, hapus barangnya pake nama barang bukan angka

@@ -1,0 +1,13 @@
+let string = 'Saya suka jeruk karena saya dan jeruk suka jeruk dan saya'
+
+tampilin yg sering keluar tp yg paling pertama muncul.
+pake .split
+^tugas untuk sampe hr jumat
+
+PR 6
+1. namah item
+2. ubah jd function
+3. buat 2 menu besar untuk admin dan user => 1. admin 2.belanja/user 3. exit
+4. kl admin bisa tambah/kurangin item trs bikin keluar untuk k menu utama
+5. kl user => ky kmr tp baliknya k menu utama
+6. exit => program selesai

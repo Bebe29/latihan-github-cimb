@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let arr = ['Jakarta', 'BSD', 'Bandung', 'Jogja']
+    // function hapus(nama) {
+    //     for (i=0; i<arr.length; i++){
+    //         if (arr[i].toLowerCase() == nama.toLowerCase()){
+    //             arr.splice(i,1)
+    //         }
+    //     }
+    // }
+    // hapus(input)
+    // alert(arr)
+
+    // function kota(nama) {
+    //     for (i = 0; i < arr.length; i++) {
+    //         if (arr[i].toLowerCase() == nama.toLowerCase()) {
+    //             return true
+    //         }
+    //     }
+    //     return false
+    // }
+    //     let input = prompt(arr)
+    //     alert(kota(input))
+
+    function repIndexOf(nama) {
+        for (i=0; i<arr.length; i++) {
+            if (arr[i].toLowerCase() == nama.toLowerCase()){
+                return i
+            }
+        }
+        return -1
+    }
+    let input = prompt(arr)
+    alert(repIndexOf(input))
+</script>
+
+</html>

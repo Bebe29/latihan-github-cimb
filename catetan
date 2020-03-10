@@ -1,0 +1,14 @@
+akses objek dgn dot notation or braket notation.
+
+for of => untuk loop array
+for in => untuk loop objek (akses propertinya)
+
+primitif data type = menyimpang value (string, number, null, undefine, boolean) => kl slh satu rubah dia aja yg rubah
+reference data type = (array, objek) => kl satu rubah, referencenya yg rubah jd semuanya ikut rubah
+
+
+PR 10
+1. buat html
+2. ketika submit semuannya hrs keisi. kl ada yg kosong 1 ksh alert kl semua harus diisi
+3. buat function untuk ngesort (nama, pekerjaan, umur). kl nama d klik bakal sort dr a ke z kl klik lagi dr z ke ada
+4. ketika semua data udh didelete. tampilin alert data kosong atau h1 data kosong

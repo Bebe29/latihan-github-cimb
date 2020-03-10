@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let arrRole = ['Admin', 'User/Belanja']
+    let arrData = [
+        { item: 'Jeruk', stock: 50, price: 5000, qty: 0 },
+        { item: 'Mangga', stock: 50, price: 4000, qty: 0 },
+        { item: 'Apel', stock: 50, price: 3000, qty: 0 }
+    ]
+
+    let menu = ''
+    let adminMenu = ''
+    let userMenu = ''
+    let daftarBelanja = ''
+    let inputMenu
+    let inputMenuIndex
+    let inputQty
+    let totalPrice
+    let userPayment
+    let isRepeat
+    let cartCount
+
+    do {
+        showMenu()
+        if (inputMenu == arrRole.length - 1) {
+            showAdminMenu()
+            if (inputMenu == 1) {
+                addNewItem()
+                isRepeat = true
+            } else {
+                isRepeat = true
+            }
+        } else if (inputMenu == arrRole.length) {
+            do {
+                showUserMenu()
+                if (inputMenu == arrData.length + 1) {
+                    showChart()
+                } else if (inputMenu == arrData.length + 2) {
+                    checkout()
+                } else {
+                    addToChart()
+                    isRepeat = true
+                }
+            } while (isRepeat)
+        } else if (inputMenu == arrRole.length + 1) {
+            break
+        }
+    } while (isRepeat)
+
+    function showMenu() {
+        menu = ''
+        for (i = 0; i < arrRole.length; i++) {
+            menu += `${i + 1}. ${arrRole[i]}\n`
+        }
+        menu += `${arrRole.length + 1}. Exit`
+
+        inputMenu = prompt(menu)
+    }
+
+    function showAdminMenu() {
+        adminMenu = ''
+        adminMenu += `1. Tambah Item Baru\n`
+        adminMenu += `2. Exit`
+
+        inputMenu = prompt(adminMenu)
+    }
+
+    function addNewItem() {
+        return arrData.push({ item: prompt('Masukan Nama Item'), stock: prompt('Masukan Stock Item'), price: prompt('Masukan Harga Item'), qty: 0 })
+    }
+
+    function showUserMenu() {
+        userMenu = ''
+        for (i = 0; i < arrData.length; i++) {
+            userMenu += `${i + 1}. ${arrData[i].item}: harga Rp ${arrData[i].price} per buah tersedia ${arrData[i].stock} buah\n`
+        }
+        userMenu += `${arrData.length + 1}. Daftar belanja\n${arrData.length + 2}. Checkout`
+
+        inputMenu = prompt(userMenu)
+        inputMenuIndex = inputMenu - 1
+    }
+
+    function showChart() {
+        daftarBelanja = ''
+        cartCount = 0
+        for (i = 0; i < arrData.length; i++) {
+            if (arrData[i].qty > 0) {
+                daftarBelanja += `${arrData[i].item}: yang dibeli ${arrData[i].qty} buah\n`
+                cartCount = 1
+            }
+            if (!cartCount && i == arrData.length - 1) {
+                alert('List belanja anda kosong')
+                isRepeat = true
+            }
+            if (daftarBelanja) {
+                alert(daftarBelanja)
+            }
+        }
+    }
+
+    function checkout() {
+        hitungTotalPrice()
+        do {
+            userPayment = parseInt(prompt(`Total belanjaan anda sebesar Rp ${totalPrice}`))
+            if (userPayment > totalPrice) {
+                alert(`Kembalian anda Rp ${userPayment - totalPrice}`)
+                isRepeat = false
+            } else if (userPayment < totalPrice) {
+                alert(`Uang anda kurang Rp ${totalPrice - userPayment}`)
+                isRepeat = true
+            } else if (userPayment == totalPrice) {
+                alert(`Terimakasih telah membayar dengan uang pas`)
+                isRepeat = false
+            }
+        } while (isRepeat)
+        for (i = 0; i < arrData.length; i++) {
+            arrData[i].stock -= arrData[i].qty
+            arrData[i].qty = 0
+        }
+        if (isRepeat = confirm('Apakah mau berbelanja kembali?')) {
+            isRepeat = true
+        } else {
+            alert('Terimakasih telah berbelanja')
+            isRepeat = false
+        }
+    }
+
+    function hitungTotalPrice() {
+        totalPrice = 0
+        for (i = 0; i < arrData.length; i++) {
+            totalPrice += (arrData[i].price * arrData[i].qty)
+        }
+    }
+
+    function addToChart() {
+        do {
+            inputQty = parseInt(prompt(`Mau beli berapa ${arrData[inputMenuIndex].item}?`))
+            if (arrData[inputMenuIndex].stock >= (inputQty + arrData[inputMenuIndex].qty)) {
+                arrData[inputMenuIndex].qty += inputQty
+                isRepeat = false
+            } else {
+                alert(`Stock ${arrData[inputMenuIndex].item} tidak cukup`)
+                isRepeat = true
+            }
+        } while (isRepeat)
+    }
+</script>
+
+</html>

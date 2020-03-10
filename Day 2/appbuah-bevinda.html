@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+//stock buah
+let sjeruk = 50
+let sapel = 50
+let smangga = 50
+let ssalak = 50
+
+//harga buah
+let hjeruk = 5000
+let hapel = 4000
+let hmangga = 6000
+let hsalak = 3000
+
+let jeruk = parseInt(prompt('Masukan jumlah jeruk yang mau dibeli'))
+let apel = parseInt(prompt('Masukan jumlah apel yang mau dibeli'))
+let mangga = parseInt(prompt('Masukan jumlah mangga yang mau dibeli'))
+let salak = parseInt(prompt('Masukan jumlah salak yang mau dibeli'))
+
+let condition = 1
+
+    if (jeruk <= sjeruk && apel <= sapel && mangga <= smangga && salak <= ssalak){
+        let total = (jeruk*hjeruk)+(apel*hapel)+(mangga*hmangga)+(salak*hsalak)
+        alert('Total yang harus dibayar : Rp'+total)
+        let uang = parseInt(prompt('Jumlah Uang'))
+        if (uang-total >= 0){
+        alert('Kembalian : Rp'+(uang-total))
+        } else {
+        alert('Uang tidak mencukupi')
+        }
+    } else {
+        alert('Stock tidak mencukupi')
+    }
+</script>
+</html>

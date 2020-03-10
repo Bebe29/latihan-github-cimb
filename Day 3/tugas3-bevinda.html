@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+//stock buah
+let stockjeruk = 50
+let stockapel = 50
+let stockmangga = 50
+let stocksalak = 50
+
+//harga buah
+let hargajeruk = 5000
+let hargaapel = 4000
+let hargamangga = 6000
+let hargasalak = 3000
+
+let condition = true
+
+while(condition){
+    alert(`Stock Buah
+    Buah Jeruk ${stockjeruk} buah dengan harga Rp ${hargajeruk} per buah
+    Buah Apel ${stockapel} buah dengan harga Rp ${hargaapel} per buah
+    Buah Mangga ${stockmangga} buah dengan harga Rp ${hargamangga} per buah
+    Buah Salak ${stocksalak} buah dengan harga Rp ${hargasalak} per buah`)
+    let jeruk = parseInt(prompt('Masukan jumlah jeruk yang mau dibeli'))
+    if (jeruk > stockjeruk){
+        alert('Stock tidak mencukupi')
+        condition = true
+    } else{
+        let apel = parseInt(prompt('Masukan jumlah apel yang mau dibeli'))
+        if (apel > stockapel){
+            alert('Stock tidak mencukupi')
+            condition = true  
+        } else {
+            let mangga = parseInt(prompt('Masukan jumlah mangga yang mau dibeli'))
+            if (mangga > stockmangga){
+                alert('Stock tidak mencukupi')
+                condition = true
+            } else {                
+                let salak = parseInt(prompt('Masukan jumlah salak yang mau dibeli'))
+                if (salak > stocksalak){
+                    alert('Stock tidak mencukupi')
+                    condition = true
+                } else {
+                    let kondisiuang = true
+                    while (kondisiuang){
+                        stockjeruk -= jeruk
+                        stockapel -= apel
+                        stockmangga -= mangga
+                        stocksalak -= salak
+                        let totalbelanja = (jeruk*hargajeruk)+(apel*hargaapel)+(mangga*hargamangga)+(salak*hargasalak)
+                        alert('Total yang harus dibayar : Rp'+totalbelanja)
+                        let uang = parseInt(prompt('Jumlah Uang'))
+                        if (uang-totalbelanja >= 0){
+                            alert('Kembalian : Rp'+(uang-totalbelanja))
+                            kondisiuang = false
+                            var selesai = confirm('Apakah mau berbelanja kembali?')
+                            if (selesai == true){
+                                selesai = true
+                                condition = true
+                            } else {
+                                alert('Terimakasih telah berbelanja')
+                                condition = false
+                            }
+                        } else {
+                            alert(`Uang tidak mencukupi
+                            Uang kurang sebesar ${uang-totalbelanja}`)
+                            kondisiuang = true
+                        }
+                    }
+                }   
+            }
+        }
+    }     
+}
+</script>
+</html>

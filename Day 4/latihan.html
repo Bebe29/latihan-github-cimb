@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    let arrItemNames = ['Jeruk', 'Mangga', 'Apel']
+    let arrPrice = [5000, 6000, 4000]
+    let arrStock = [50 , 50, 50]
+    let daftar = ''
+
+    for (i = 0; i<arrItemNames.length; i++){
+        daftar += `${arrItemNames[i]}: harga Rp ${arrPrice[i]} per buah tersedia ${arrStock[i]} buah\n`
+    }
+    alert(daftar)
+
+</script>
+</html>

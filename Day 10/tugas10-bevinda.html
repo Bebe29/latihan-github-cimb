@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body id="main">
+    <style>
+        table,
+        tr,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+    </style>
+    <table align="center">
+        <thead>
+            <tr>
+                <td onclick="sortData(0)"><strong>Nama</strong></td>
+                <td onclick="sortData(1)"><strong>Pekerjaan</strong></td>
+                <td onclick="sortData(2)"><strong>Umur</strong></td>
+                <td><strong>Picture<strong></td>
+            </tr>
+        </thead>
+        <tbody id="mainData">
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><input id="inputNama" type="text" placeholder="Input Nama"></td>
+                <td><input id="inputPekerjaan" type="text" placeholder="Input Pekerjaan"></td>
+                <td><input id="inputUmur" type="text" placeholder="Input Umur"></td>
+                <td><input id="inputPic" type="text" placeholder="Input Picture Link"></td>
+                <td><input id="submitBtn" type="button" value="Submit" onclick="addData()"></td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+<script>
+    class Orang {
+        constructor(nama, pekerjaan, umur, pic) {
+            this.nama = nama
+            this.pekerjaan = pekerjaan
+            this.umur = umur
+            this.pic = pic
+        }
+    }
+    let dataOrang = [
+        new Orang('Haku', 'Main Character', 12, 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTKRyNGDT21AB12cuULwakiyhSm9pVfiYNG4n-PIVtXiTSJPUIk'),
+        new Orang('No-Face', 'Spirit', 50, 'https://toppng.com/uploads/preview/no-face-png-11553956753a6hqkffkzz.png'),
+        new Orang('Chihiro', 'Main Character', 10, 'https://vignette.wikia.nocookie.net/p__/images/e/e3/X39xc4.png/revision/latest/top-crop/width/360/height/450?cb=20160227173405&path-prefix=protagonist')
+    ]
+    const renderData = () => {
+        let hasil = ''
+        dataOrang.forEach(({ nama, pekerjaan, umur, pic }, index) => {
+            hasil += `
+            <tr>
+                <td>${nama}</td>
+                <td>${pekerjaan}</td>
+                <td>${umur}</td>
+                <td><img src=${pic} width="100px"></td>
+                <td><input type="button" value="Delete" onclick="deleteData(${index})"></td>
+            </tr>
+            `
+        })
+        if (dataOrang.length == 0){
+            alert('Data Kosong')
+            // document.getElementById("main").innerHTML = '<h1><strong><center>Data Kosong</center></strong></h1>'
+        }
+        document.getElementById("mainData").innerHTML = hasil
+    }
+    renderData()
+    const addData = () => {
+        let inputNama = document.getElementById("inputNama").value
+        let inputPekerjaan = document.getElementById("inputPekerjaan").value
+        let inputUmur = document.getElementById('inputUmur').value
+        let inputPic = document.getElementById('inputPic').value
+
+        if (inputNama && inputPekerjaan && inputUmur && inputPic) {
+            let newData = new Orang(inputNama, inputPekerjaan, inputUmur, inputPic)
+
+            dataOrang.push(newData)
+            alert('Data ditambahkan')
+            renderData()
+        } else {
+            alert('Mohon input semua data')
+        }
+    }
+
+    const deleteData = (deleteIndex) => {
+        dataOrang.splice(deleteIndex, 1)
+        alert('Data dihapus')
+        renderData()
+    }
+
+    const sortData = (idx) => {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("mainData");
+        switching = true;
+        
+        dir = "asc";
+        
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 0; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[idx];
+                y = rows[i + 1].getElementsByTagName("TD")[idx];
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+</script>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <p>
+        <b>Daftar Buah</b>
+        <br>
+    </p> -->
+    <style>
+        table, tr, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+    <!-- <table id="data">
+        <tr>
+            <td><strong>No.</strong></td>
+            <td><strong>Nama</strong></td>
+            <td><strong>Harga</strong></td>
+        </tr>
+    </table> -->
+
+    <p>1</p>
+    <p>2</p>
+    <p>3</p>
+    <p>4</p>
+    <p>5</p>
+
+</body>
+<script>
+    document.getElementsByTagName("p")[2].innerHTML = "Ganti"
+    // let arrItems = [
+    //   {
+    //     produk: "Jeruk",
+    //     harga: 10000,
+    //     stock: 10,
+    //     qty: 0
+    //   },
+    //   {
+    //     produk: "Mangga",
+    //     harga: 15000,
+    //     stock: 10,
+    //     qty: 0
+    //   },
+    //   {
+    //     produk: "Apel",
+    //     harga: 5000,
+    //     stock: 10,
+    //     qty: 0
+    //   }
+    // ];
+
+    // // let menu = "";
+
+    // // function showMenu() {
+    // //   menu = "";
+    // //   for (let i = 0; i < arrItems.length; i++) {
+    // //     menu += `${i + 1}. <b>${arrItems[i].produk}</b> IDR <i>${
+    // //       arrItems[i].harga
+    // //     }</i>/pcs (${arrItems[i].stock} items ready)<br>`;
+    // //   }
+    // //     menu += `${arrItems.length + 1}. Cart<br>`;
+    // //     menu += `${arrItems.length + 2}. Checkout<br>`; 
+    // //   return menu;
+    // // }
+    // // document.getElementById("1").innerHTML += showMenu()
+    // // arrItems.forEach(({produk, harga, stock}, idx) => {
+    // //     document.getElementById("1").innerHTML += `${idx+1}. <strong>${produk}</strong> IDR <em>${harga}</em> /pcs (${stock} items ready)<br>`
+    // // })
+
+    // arrItems.forEach(({produk,harga,stock},idx) => {
+    //     document.getElementById("data").innerHTML += `
+    //     <tr>
+    //         <td>${idx+1}</td>
+    //         <td>${produk}</td>
+    //         <td>${harga}</td>
+    //     </tr>`
+    // })
+</script>
+</html>

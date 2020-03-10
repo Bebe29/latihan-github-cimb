@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let arrItemNames = ['Jeruk', 'Mangga', 'Apel']
+    let arrPrice = [5000, 6000, 4000]
+    let arrStock = [50, 50, 50]
+    let arrInput = [0, 0, 0]
+
+    let daftar
+    let totalBelanja = 0
+    let menu, jeruk, mangga, apel, uang, selesai
+    let isInput, isUtama
+    let indexJeruk = arrItemNames.indexOf('Jeruk')
+    let indexMangga = arrItemNames.indexOf('Mangga')
+    let indexApel = arrItemNames.indexOf('Apel')
+
+    do {
+        menu = prompt(`Menu
+        1. ${arrItemNames[indexJeruk]}: harga Rp ${arrPrice[indexJeruk]} per buah tersedia ${arrStock[indexJeruk]} buah
+        2. ${arrItemNames[indexMangga]}: harga Rp ${arrPrice[indexMangga]} per buah tersedia ${arrStock[indexMangga]} buah
+        3. ${arrItemNames[indexApel]}: harga Rp ${arrPrice[indexApel]} per buah tersedia ${arrStock[indexApel]} buah
+        4. Check Out`)
+        if (menu == 1) {
+            do {
+                jeruk = parseInt(prompt('Masukan jumlah jeruk yang mau dibeli'))
+                if (jeruk > arrStock[indexJeruk] || jeruk < 0) {
+                    alert('Stock tidak mencukupi')
+                    isInput = true
+                } else {
+                    arrInput[indexJeruk] += jeruk
+                    arrStock[indexJeruk] -= jeruk
+                    isInput = false
+                    isUtama = true
+                }
+            } while (isInput)
+        } else if (menu == 2) {
+            do {
+                mangga = parseInt(prompt('Masukan jumlah mangga yang mau dibeli'))
+                if (mangga > arrStock[indexMangga] || mangga < 0) {
+                    alert('Stock tidak mencukupi')
+                    isInput = true
+                } else {
+                    arrInput[indexMangga] += mangga
+                    arrStock[indexMangga] -= mangga
+                    isInput = false
+                    isUtama = true
+                }
+            } while (isInput)
+        } else if (menu == 3) {
+            do {
+                apel = parseInt(prompt('Masukan jumlah apel yang mau dibeli'))
+                if (apel > arrStock[indexApel] || apel < 0) {
+                    alert('Stock tidak mencukupi')
+                    isInput = true
+                } else {
+                    arrInput[indexApel] += apel
+                    arrStock[indexApel] -= apel
+                    isInput = false
+                    isUtama = true
+                }
+            } while (isInput)
+        } else if (menu == 4) {
+            do {                      
+                for (i = 0; i < arrItemNames.length; i++) {
+                    totalBelanja += (arrInput[i] * arrPrice[i])
+                }
+                alert('Total yang harus dibayar : Rp' + totalBelanja)
+                uang = parseInt(prompt('Jumlah Uang'))
+                if (uang > totalBelanja) {
+                    alert('Kembalian : Rp' + (uang - totalBelanja))
+                    if (selesai = confirm('Apakah mau berbelanja kembali?')) {
+                        selesai = true
+                        for (i=0; i<arrInput.length; i++){
+                            arrInput[i] = 0
+                        }
+                        totalBelanja = 0
+                    } else {
+                        alert('Terimakasih telah berbelanja')
+                        selesai = false
+                    }
+                } else if (uang == totalBelanja){
+                    alert('Terimakasih sudah membayar dengan uang pas')
+                    if (selesai = confirm('Apakah mau berbelanja kembali?')) {
+                        selesai = true
+                        for (i=0; i<arrInput.length; i++){
+                            arrInput[i] = 0
+                        }
+                        totalBelanja = 0
+                    } else {
+                        alert('Terimakasih telah berbelanja')
+                        selesai = false
+                    }
+                } else {
+                    alert(`Uang tidak mencukupi
+                    Uang kurang sebesar ${uang - totalBelanja}`)
+                    isInput = true
+                }
+            } while (isInput)
+        }
+    } while (isUtama)
+</script>
+</html>
