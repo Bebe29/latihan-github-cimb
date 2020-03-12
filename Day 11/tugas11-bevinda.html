@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body id="main">
+    <style>
+        table,
+        tr,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+    </style>
+    <table align="center">
+        <thead>
+            <tr>
+                <td onclick="sortData('nama')"><strong>Nama</strong></td>
+                <td onclick="sortData('pekerjaan')"><strong>Pekerjaan</strong></td>
+                <td onclick="sortData('umur')"><strong>Umur</strong></td>
+                <td><strong>Picture<strong></td>
+                <td onclick="sortData('gender')"><strong>Gender<strong></td>
+                <td><strong>Biodata<strong></td>
+            </tr>
+        </thead>
+        <tbody id="mainData">
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><input id="inputNama" type="text" placeholder="Input Nama"></td>
+                <td><input id="inputPekerjaan" type="text" placeholder="Input Pekerjaan"></td>
+                <td><input id="inputUmur" type="text" placeholder="Input Umur"></td>
+                <td><input id="inputPic" type="text" placeholder="Input Picture Link"></td>
+                <td><input id="inputGender" type="radio" name="gender" value="Male"><label for="Male">Male</label> <br>
+                    <input id="inputGender" type="radio" name="gender" value="Female"><label for="Female">Female</label></td>
+                <td><textarea id="inputBio" placeholder="Input Biodata" rows="5" cols="40" onkeyup="hitungText()"></textarea>
+                    <br><span id="count">0/30</span>
+                </td>
+                <td><input id="submitBtn" type="button" value="Submit" onclick="addData()"></td>
+            </tr>
+        </tfoot>
+    </table>
+    <h3 id="notif"></h3>
+</body>
+<script>
+    class Orang {
+        constructor(nama, pekerjaan, umur, pic, gender, bio) {
+            this.nama = nama
+            this.pekerjaan = pekerjaan
+            this.umur = umur
+            this.pic = pic
+            this.gender = gender
+            this.bio = bio
+        }
+    }
+    let dataOrang = [
+        new Orang('Haku', 'Main Character', 12, 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTKRyNGDT21AB12cuULwakiyhSm9pVfiYNG4n-PIVtXiTSJPUIk', 'Male', 'He has straight, dark green hair in a bob haircut and slanted, dark green eyes when he is human'),
+        new Orang('No-Face', 'Spirit', 50, 'https://toppng.com/uploads/preview/no-face-png-11553956753a6hqkffkzz.png', 'Male', 'No-Face is a lonely spirit'),
+        new Orang('Chihiro', 'Main Character', 10, 'https://vignette.wikia.nocookie.net/p__/images/e/e3/X39xc4.png/revision/latest/top-crop/width/360/height/450?cb=20160227173405&path-prefix=protagonist', 'Female', 'Chihiro has chocolate brown hair and rosy cheeks')
+    ]
+    let switchSort = {
+        nama: 0,
+        pekerjaan: 0,
+        umur: 0,
+        gender: 0
+    }
+    const renderData = () => {
+        let hasil = ''
+        dataOrang.forEach(({ nama, pekerjaan, umur, pic, gender, bio }, index) => {
+            if (bio.length > 30){
+                bio = bio.slice(0,30).concat('...')
+            }
+            hasil += `
+            <tr>
+                <td>${nama}</td>
+                <td>${pekerjaan}</td>
+                <td>${umur}</td>
+                <td><img src=${pic} width="100px"></td>
+                <td>${gender}</td>
+                <td><textarea rows="5" cols="40" readonly>${bio}</textarea></td>
+                <td><input type="button" value="Delete" onclick="deleteData(${index})"></td>
+            </tr>
+            `
+        })
+        document.getElementById("mainData").innerHTML = hasil
+        document.getElementById('notif').innerHTML = ''
+    }
+    renderData()
+
+    const addData = () => {
+        let inputNama = document.getElementById("inputNama").value
+        let inputPekerjaan = document.getElementById("inputPekerjaan").value
+        let inputUmur = document.getElementById('inputUmur').value
+        let inputPic = document.getElementById('inputPic').value
+        let inputGender = document.getElementsByName('gender')
+        let inputBio = document.getElementById('inputBio').value
+        
+        for (let i = 0; i<inputGender.length; i++) {
+            if (inputGender[i].checked) {
+                gender = inputGender[i].value
+                inputGender[i].checked = false
+            }
+        }
+
+        if (inputNama && inputPekerjaan && inputUmur && inputPic && gender && inputBio) {
+            let newData = new Orang(inputNama, inputPekerjaan, inputUmur, inputPic, gender, inputBio)
+
+            dataOrang.push(newData)
+            document.getElementById('count').innerHTML = '0/30'
+            alert('Data ditambahkan')
+            renderData()
+            document.getElementById("inputNama").value = ''
+            document.getElementById("inputPekerjaan").value = ''
+            document.getElementById('inputUmur').value = ''
+            document.getElementById('inputPic').value = ''
+            document.getElementById('inputBio').value = ''
+        } else {
+            document.getElementById('notif').innerHTML = '<center>Field Kosong</center>'
+        }
+    }
+
+    const deleteData = (deleteIndex) => {
+        dataOrang.splice(deleteIndex, 1)
+        alert('Data dihapus')
+        renderData()
+
+        if (dataOrang.length == 0){
+            document.getElementById('notif').innerHTML = '<center>Data Kosong</center>'
+        }
+    }
+
+    const sortData = (key) => {
+        const sortFnAZ = (a,b) => {
+            if (a[key] > b[key]) {
+                return 1
+            } else {
+                return -1
+            }
+        }
+        const sortFnZA = (a,b) => {
+            if (a[key] > b[key]) {
+                return -1
+            } else {
+                return 1
+            }
+        }
+        if (switchSort[key] % 2 == 0){
+            switchSort[key]++
+            dataOrang.sort(sortFnAZ)
+        } else {
+            switchSort[key]--
+            dataOrang.sort(sortFnZA)
+        }
+        renderData()
+    }
+
+    const hitungText = () => {
+        document.getElementById('count').innerHTML = inputBio.value.length + '/30'
+    }
+</script>
+
+</html>

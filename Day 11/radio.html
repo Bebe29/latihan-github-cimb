@@ -1,0 +1,23 @@
+<html>
+<head>
+  <style type="text/css">
+    label { display: block; }
+  </style>
+<body>
+  <form>
+    <label><input type="radio" name="q" id="radio-a" value="A"> A</label>
+    <label><input type="radio" name="q" id="radio-b" value="B"> B</label>
+    <label><input type="radio" name="q" id="radio-c" value="C"> C</label>
+    <a href="#" id="clear-button">Clear</a>
+  </form>
+
+  <script type="text/javascript">
+    document.getElementById('clear-button').addEventListener('click', function () {
+      ["radio-a", "radio-b", "radio-c"].forEach(function(id) {
+        document.getElementById(id).checked = false;
+      });
+      return false;
+    })
+  </script>
+</body>
+</html>

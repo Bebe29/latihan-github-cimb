@@ -1,0 +1,2 @@
+1. nama di radio button hrs sama biar cuman bs dipilih slh satu
+2. pelajari field set
