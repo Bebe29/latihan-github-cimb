@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input list="category" id="inputCategory">
+    <datalist id="category"></datalist>
+    <!-- <input id="car" list="anrede">
+    <datalist id="anrede"></datalist> -->
+</body>
+<script>
+    class Product {
+        constructor(id, category, nama, harga, stock) {
+            this.id = id;
+            this.category = category;
+            this.nama = nama;
+            this.harga = harga;
+            this.stock = stock;
+        }
+    }
+    let productData = [
+        new Product('1583981075685', 'Cloth', 'H&M', 12000, 10),
+        new Product('1583981090582', 'Fruit', 'Jeruk', 7000, 10),
+        new Product('1583981081972', 'Electronic', 'Samsung', 30000, 10)
+    ]
+
+    let arrCategory = []
+    productData.forEach(({ category }) => {
+            arrCategory.push(category)
+        })
+
+    const selector = (id) => {
+        return document.getElementById(id)
+    }
+    const listData = () => {
+        let list = selector('category')
+        arrCategory.forEach( item => {
+            let option = document.createElement("OPTION")
+            option.value = item
+            let optionText = document.createTextNode(item)
+            option.appendChild(optionText)
+            list.appendChild(option)
+        })
+    }
+    listData()
+
+    // let arrCar = ['Herr', 'Frau']
+    // let list = document.getElementById('anrede');
+
+    // arrCar.forEach(item => {
+    //     let option = document.createElement('option');
+    //     option.value = item;
+    //     list.appendChild(option);
+    // });
+</script>
+
+</html>

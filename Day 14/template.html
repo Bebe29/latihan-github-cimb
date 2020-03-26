@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        fieldset {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 800px;
+            margin: auto;
+        }
+
+        table,
+        tr,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            padding: 5px;
+        }
+    </style>
+    <!-- From Filter Data-->
+    <fieldset>
+        <legend>Filter</legend>
+        <p>Nama: <input type="text" id="filterNama" onkeyup="filterData()"></p>
+        <p>Harga: <input type="number" id="filterMinHrg" onkeyup="filterData()"> - <input type="number"
+                id="filterMaxHrg" onkeyup="filterData()"></p>
+        <p>Category:
+            <select id="filterCategory" onchange="filterData()">
+                <option selected value="">All</option>
+                <option value="Electronic" id="categoryElectronic">Electronic</option>
+                <option value="Cloth" id="categoryCloth">Cloth</option>
+                <option value="Fruit" id="categoryFruit">Fruit</option>
+            </select>
+        </p>
+    </fieldset>
+    <!-- From Input Data -->
+    <fieldset>
+        <legend>Input Data</legend>
+        <table>
+            <tr>
+                <td><input type="text" id="inputNama" placeholder="Nama"></td>
+                <td><input type="number" id="inputHarga" placeholder="Harga"></td>
+                <td><select id="inputCategory">
+                        <option selected value="">All</option>
+                        <option value="Electronic" id="categoryElectronic">Electronic</option>
+                        <option value="Cloth" id="categoryCloth">Cloth</option>
+                        <option value="Fruit" id="categoryFruit">Fruit</option>
+                    </select>
+                </td>
+                <td><input type="number" id="inputStock" placeholder="Stock"></td>
+            </tr>
+        </table>
+        <br><input id="inputBtn" type="button" value="Input" onclick="inputData()">
+        <h4 id="notifField"></h4>
+    </fieldset>
+    <!-- Form Tabel Data -->
+    <fieldset>
+        <legend>Tabel Data</legend>
+        <table>
+            <thead>
+                <tr>
+                    <td onclick="sortData('')"><strong>ID</strong></td>
+                    <td onclick="sortData('')"><strong>Category</strong></td>
+                    <td onclick="sortData('')"><strong>Nama</strong></td>
+                    <td onclick="sortData('')"><strong>Price<strong></td>
+                    <td onclick="sortData('')"><strong>Stock<strong></td>
+                    <td><strong>Buy<strong></td>
+                    <td colspan="2"><strong>Action</strong></td>
+                </tr>
+            </thead>
+            <tbody id="dataBody">
+            </tbody>
+        </table>
+        <h4 id="notifData"></h4>
+    </fieldset>
+    <!-- Form Cart -->
+    <fieldset>
+        <legend>Cart</legend>
+        <table>
+            <thead>
+                <tr>
+                    <td onclick="sortData('')"><strong>ID</strong></td>
+                    <td onclick="sortData('')"><strong>Category</strong></td>
+                    <td onclick="sortData('')"><strong>Nama</strong></td>
+                    <td onclick="sortData('')"><strong>Price<strong></td>
+                    <td onclick="sortData('')"><strong>Qty<strong></td>
+                    <td><strong>Action</strong></td>
+                </tr>
+            </thead>
+            <tbody id="cartBody">
+            </tbody>
+        </table>
+        <br><input id="paymentBtn" type="button" value="Payment" onclick="renderPayment()">
+    </fieldset>
+    <!-- Form Paymet -->
+    <fieldset>
+        <legend>Payment</legend>
+        <h3>Transaction Detail</h3>
+        <p id="paymentDetail"></p>
+    </fieldset>
+</body>
+<script>
+    class Product {
+        constructor(id, category, nama, harga, stock) {
+            this.id = id
+            this.category = category
+            this.nama = nama
+            this.harga = harga
+            this.stock = stock
+        }
+    }
+
+    // let date = new Date()
+
+    let productData = [
+        new Product('1583981075685', 'Cloth', 'H&M', 12000, 10),
+        new Product('1583981090582', 'Fruit', 'Jeruk', 7000, 10),
+        new Product('1583981081972', 'Electronic', 'Samsung', 30000, 10)
+    ]
+
+    let arrCart = []
+    let userPayment
+
+    const selector = (id) => {
+        return document.getElementById(id)
+    }
+
+    const renderData = (arr = productData, editIdx) => {
+        let menu = ''
+        arr.forEach(({ id, category, nama, harga, stock }, index) => {
+            if (index !== editIdx) {
+                menu += `
+            <tr>
+                <td>${id}</td>
+                <td>${category}</td>
+                <td>${nama}</td>
+                <td>${harga}</td>
+                <td>${stock}</td>
+                <td><input type="button" value="Add" onclick="addToCart(${id})"></td>
+                <td><input type="button" value="Delete" onclick="deleteData(${id})"></td>
+                <td><input type="button" value="Edit" onclick="editData(${id})"></td>
+            </tr>
+            `
+            } else {
+                menu += `
+            <tr>
+                <td><input type="text" value="${id}" disabled></td>
+                <td><input type="text" value="${category}" disabled></td>
+                <td><input type="text" value="${nama}" id="editNama"></td>
+                <td><input type="number" value="${harga}" id="editHarga"></td>
+                <td><input type="number" value="${stock}" id="editStock"></td>
+                <td><input type="button" value="Add" disabled onclick="addToCart(${id})"></td>
+                <td><input type="button" value="Save" onclick="saveProduct(${id})"></td>
+                <td><input type="button" value="Cancel" onclick="renderData()"></td>
+            </tr>
+            `
+            }
+        })
+        selector("dataBody").innerHTML = menu
+    }
+    renderData()
+
+    const inputData = () => {
+        let inputId = new Date().getTime()
+        let inputNama = selector("inputNama").value
+        let inputHarga = selector("inputHarga").value
+        let inputCategory = selector('inputCategory').value
+        let inputStock = selector('inputStock').value
+        selector("notifField").innerHTML = ''
+
+        if (inputNama && inputHarga && inputCategory && inputStock) {
+            let newData = new Product(inputId, inputCategory, inputNama, inputHarga, inputStock)
+
+            productData.push(newData)
+            alert('Data ditambahkan')
+            renderData()
+            selector("inputNama").value = ''
+            selector("inputHarga").value = ''
+            selector("inputCategory").value = ''
+            selector('inputStock').value = ''
+        } else {
+            selector("notifField").innerHTML = 'Ada Field Kosong!'
+        }
+    }
+
+    const filterData = () => {
+        let filter = []
+
+        let filterNama = selector('filterNama').value
+        let filterMinHrg = selector('filterMinHrg').value
+        let filterMaxHrg = selector('filterMaxHrg').value
+        let filterCategory = selector('filterCategory').value
+
+        productData.forEach((val) => {
+            let { category, nama, harga } = val
+            if (nama.toLowerCase().startsWith(filterNama.toLowerCase()) &&
+                category.toLowerCase().startsWith(filterCategory.toLowerCase()) &&
+                (harga >= filterMinHrg || filterMinHrg == '') &&
+                (harga <= filterMaxHrg || filterMaxHrg == '')) {
+                filter.push(val)
+            }
+        })
+        renderData(filter)
+    }
+
+    const addToCart = (id) => {
+        let item = productData.find((val) => val.id == id)
+
+        let isInCart = arrCart.find((val) => val.id == item.id)
+
+        if (isInCart) {
+            let idx = arrCart.findIndex((val) => val.id == isInCart.id)
+            if (arrCart[idx].qty >= arrCart[idx].stock) {
+                alert('Stock sudah habis')
+            } else {
+                arrCart[idx].qty++
+            }
+        } else {
+            let newCartItem = {
+                ...item,
+                qty: 1
+            }
+            arrCart.push(newCartItem)
+        }
+        renderCart()
+    }
+
+    const renderCart = () => {
+        let cart = ''
+        arrCart.forEach(({ id, category, nama, harga, qty }) => {
+            cart += `
+            <tr>
+                <td>${id}</td>
+                <td>${category}</td>
+                <td>${nama}</td>
+                <td>${harga}</td>
+                <td>${qty}</td>
+                <td><input type="button" value="Delete" onclick="deleteCart(${id})"></td>
+            </tr>
+            `
+        })
+        selector("cartBody").innerHTML = cart
+    }
+
+    const deleteData = (deleteId) => {
+        let item = productData.find((val) => val.id == deleteId)
+        let deleteIdIndex = productData.findIndex((val) => val.id == item.id)
+        let isInCart = arrCart.find((val) => val.id == item.id)
+
+        if (isInCart) {
+            productData.splice(deleteIdIndex, 1)
+            deleteCart(deleteId)
+        } else {
+            productData.splice(deleteIdIndex, 1)
+            alert('Data telah dihapus')
+        }
+        renderData()
+
+        if (productData.length == 0) {
+            selector("notifData").innerHTML = 'Data Kosong!'
+        }
+    }
+
+    const deleteCart = (deleteId) => {
+        let idx = arrCart.findIndex((val) => val.id == deleteId)
+        arrCart.splice(idx, 1)
+        alert('Data telah dihapus')
+        renderCart()
+    }
+
+    const editData = (id) => {
+        let indexItem = productData.findIndex((val) => val.id == id)
+        renderData(productData, indexItem)
+    }
+
+    const saveProduct = (id) => {
+        let indexItem = productData.findIndex((val) => val.id == id)
+        let editNama = selector("editNama").value
+        let editHarga = selector("editHarga").value
+        let editStock = selector("editStock").value
+        productData[indexItem].nama = editNama
+        productData[indexItem].harga = editHarga
+        productData[indexItem].stock = editStock
+        renderData(productData)
+    }
+
+    const renderPayment = () => {
+        let daftarPayment = ''
+        arrCart.forEach(({ category, nama, harga, qty }) => {
+            daftarPayment += `<p>${category} | ${nama} | Rp ${harga} X ${qty} = Rp ${harga * qty}</p>`
+        })
+        daftarPayment += `
+        <h4>Sub Total : Rp ${subTotal()}<h4>
+        <h4>PPN : Rp ${ppn()}</h4>
+        <h4>Total : Rp ${subTotal() + ppn()}</h4>
+        <input type="number" value="${userPayment}" id="userPayment">
+        <input type="button" value="Pay" onclick="payment()">`
+        selector("paymentDetail").innerHTML = daftarPayment
+    }
+
+    const subTotal = () => {
+        let subTotal = 0
+        arrCart.forEach(({ harga, qty }) => {
+            subTotal += harga * qty
+        })
+        return subTotal
+    }
+
+    const ppn = () => {
+        let ppn = 0.1 * subTotal()
+        return ppn
+    }
+
+    const payment = () => {
+        let userPayment = selector("userPayment").value
+        if (userPayment > subTotal() + ppn()) {
+            alert(`Kembalian anda Rp ${userPayment - (subTotal() + ppn())}`)
+            selector("paymentDetail").innerHTML = ''
+            arrCart = []
+            renderCart()
+        } else if (userPayment < subTotal() + ppn()) {
+            alert(`Maaf uang anda tidak cukup\nUang anda kurang Rp ${(subTotal() + ppn()) - userPayment}`)
+            selector("userPayment").value = ''
+        } else if (userPayment == subTotal() + ppn()) {
+            alert(`Terimakasih telah membayar dengan uang pas`)
+            selector("paymentDetail").innerHTML = ''
+            arrCart = []
+            renderCart()
+        }
+
+    }
+</script>
+
+</html>

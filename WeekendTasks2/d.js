@@ -11,18 +11,31 @@ const caesarCipher = (word, num) => {
   // Input: 'abc', 28
   // Output: 'cde'
 
-  let arrLetters = letters.split("");
-  let newWord = "";
-  let position = 0;
+  // let arrLetters = letters.split("");
+  // let newWord = "";
+  // let position = 0;
 
-  for (let i = 0; i < word.length; i++) {
-    position = arrLetters.indexOf(word.charAt(i)) + num;
-    while (position > arrLetters.length - 1) {
-      position -= arrLetters.length;
+  // for (let i = 0; i < word.length; i++) {
+  //   position = arrLetters.indexOf(word.charAt(i)) + num;
+  //   while (position > arrLetters.length - 1) {
+  //     position -= arrLetters.length;
+  //   }
+  //   newWord += arrLetters[position];
+  // }
+  // return newWord;
+
+  //pembahasan//
+  let splitWord = word.split('')
+  let arrAlp = letters.split('')
+  let hasil = ''
+
+  for (i = 0; i < splitWord.length; i++) {
+    while (num > 26) {
+      num -= 26
     }
-    newWord += arrLetters[position];
+    hasil += arrAlp[arrAlp.indexOf(splitWord[i])+ num]
   }
-  return newWord;
+  return hasil
 };
 // console.log(caesarCipher("abc", 28));
 console.log(caesarCipher("xyz", 28));
@@ -39,24 +52,39 @@ const plusMinus = numArr => {
   // Input: [1, 1, 1, 1, 1]
   // Output: 1 + 1 - 1 + 1 - 1 = 1
 
-  let textSum = "";
-  let sum = 0;
-  numArr.forEach((element, index) => {
-    if (index == 0) {
-      textSum += element;
-      sum += element;
-    } else if (index % 2 !== 0) {
-      textSum += ` + ${element}`;
-      sum += element;
-    } else {
-      textSum += ` - ${element}`;
-      sum -= element;
+  // let textSum = "";
+  // let sum = 0;
+  // numArr.forEach((element, index) => {
+  //   if (index == 0) {
+  //     textSum += element;
+  //     sum += element;
+  //   } else if (index % 2 !== 0) {
+  //     textSum += ` + ${element}`;
+  //     sum += element;
+  //   } else {
+  //     textSum += ` - ${element}`;
+  //     sum -= element;
+  //   }
+  // });
+  // return textSum + " = " + sum;
+
+  //Pembahasan//
+  let result = numArr[0]
+  let operator = 'tambah'
+
+  for (i=1; i < numArr.length; i++) {
+    if (operator == 'tambah') {
+      result = result + numArr[i]
+      operator = 'kurang'
+    } else if (operator == 'kurang') {
+      result = result - numArr[i]
+      operator = 'tambah'
     }
-  });
-  return textSum + " = " + sum;
+  }
+  return result
 };
-console.log(plusMinus([1, 1, 1, 1, 1]));
-// console.log(plusMinus([2, 5, 6, -4, 20, 3, -1]));
+// console.log(plusMinus([1, 1, 1, 1, 1]));
+console.log(plusMinus([2, 5, 6, -4, 20, 3, -1]));
 
 const isPalindrome = string => {
   // Buat sebuah function yang menerima sebuah string
@@ -85,20 +113,23 @@ const isPalindrome = string => {
   // Input: 'hehe kocak'
   // Output: false
 
-  let arrString = string.split(" ").join("");
-  let count = 0;
-  for (let i = 0; i < arrString.length; i++) {
-    if (
-      arrString[i].toLowerCase() ==
-      arrString[arrString.length - (i + 1)].toLowerCase()
-    ) {
-      count += 1;
-    }
-  }
-  if (count > 1) {
-    return true;
-  }
-  return false;
+  // let arrString = string.split(" ").join("");
+  // let count = 0;
+  // for (let i = 0; i < arrString.length; i++) {
+  //   if (
+  //     arrString[i].toLowerCase() ==
+  //     arrString[arrString.length - (i + 1)].toLowerCase()
+  //   ) {
+  //     count += 1;
+  //   }
+  // }
+  // if (count > 1) {
+  //   return true;
+  // }
+  // return false;
+
+  //pembahasan//
+  return string.toLowerCase().replace(/\s/gi, '').split('').reverse().join('') == string.toLowerCase().replace(/\s/gi, '')
 };
 console.log(isPalindrome("A man, A plan, A canaL, Panama!"));
 // console.log(isPalindrome('quick brown fox'))

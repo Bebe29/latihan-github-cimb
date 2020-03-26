@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        table {
+            text-align: center;
+        }
+        p {
+            font-size: 25px;
+            font-weight: bold;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <table align="center">
+        <thead>
+            <tr>
+                <td>
+                    <p id="minute">00</p>
+                </td>
+                <td>
+                    <p>:</p>
+                </td>
+                <td>
+                    <p id="second">00</p>
+                </td>
+                <td>
+                    <p>,</p>
+                </td>
+                <td>
+                    <p id="milisecond">00</p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5"><input type="button" value="Start" onclick="start()" id="buttonStar">
+                    <input type="button" value="Stop" onclick="stop()"></td>
+            </tr>
+            <tr>
+                <td colspan="5"><input type="button" value="Lap" onclick="lap()">
+                    <input type="button" value="Reset" onclick="reset()"></td>
+            </tr>
+        </thead>
+        <tbody id="laps">
+        </tbody>
+    </table>
+</body>
+<script>
+    let stopwatch
+    let miliseconds = 0
+    let seconds = 0
+    let minutes = 0
+
+    const start = () => {
+        stopwatch = setInterval(() => {
+            if (miliseconds == 100) {
+                miliseconds = 0
+                seconds++
+                textTime("second", seconds)
+                if (seconds == 60) {
+                    seconds = 0
+                    minutes++
+                    textTime("second", seconds)
+                    textTime("minute", minutes)
+                    if (minutes == 60) {
+                        if (seconds == 59 && miliseconds == 99){
+                            stop()
+                        }
+                    }
+                }
+            }
+            textTime("milisecond", miliseconds)
+            miliseconds++
+        }, 10)
+        document.getElementById("buttonStar").disabled = true
+    }
+
+    const textTime = (text, time) => {
+        if (time <= 9) {
+            document.getElementById(text).innerHTML = `0${time}`
+        } else {
+            document.getElementById(text).innerHTML = time
+        }
+    }
+
+    const stop = () => {
+        document.getElementById("buttonStar").disabled = false
+        clearInterval(stopwatch)
+    }
+
+    const textLapTime = (time) => {
+        if (time <= 9) {
+            return `0${time}`
+        } else {
+            return time
+        }
+    }
+
+    const lap = () => {
+        let daftarLaps = ''
+        daftarLaps += `<tr>
+                <td>
+                    <p>${textLapTime(minutes)}</p>
+                </td>
+                <td>
+                    <p>:</p>
+                </td>
+                <td>
+                    <p>${textLapTime(seconds)}</p>
+                </td>
+                <td>
+                    <p>,</p>
+                </td>
+                <td>
+                    <p>${textLapTime(miliseconds)}</p>
+                </td>
+            </tr>`
+        document.getElementById("laps").innerHTML += daftarLaps
+    }
+
+    const reset = () => {
+        miliseconds = 0
+        seconds = 0
+        minutes = 0
+        textTime("milisecond", miliseconds)
+        textTime("second", seconds)
+        textTime("minute", minutes)
+        document.getElementById("laps").innerHTML = ''
+    }
+</script>
+
+</html>
