@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        div {
+            margin: 20px;
+        }
+    </style>
+    <div>
+        <h1>Drawing Tools</h1>
+    </div>
+    <div id="listBangunan"></div>
+    <div>
+        <p>Jenis Bangunan:</p>
+        <input type="text" placeholder="Angka Jenis Bangunan" id="jenisBangunan">
+        <p>Ukuran:</p>
+        <input type="text" placeholder="Ukuran bangunan" id="ukuranBangunan">
+        <p><input type="button" value="Liat" onclick="liatBangunan()"></p>
+    </div>
+    <div>
+        <p id="bentukBangunan"></p>
+    </div>
+</body>
+<script>
+    let bangunan = ['Persegi', 'Segitiga Siku Kiri', 'Segitiga Siku Kanan']
+    const daftarBangunan = () => {
+        let daftar = ''
+        bangunan.forEach((item, index) => {
+            daftar += `<p>${index + 1}. ${item}</p>`
+        })
+        document.getElementById("listBangunan").innerHTML = daftar
+    }
+    daftarBangunan()
+    const liatBangunan = () => {
+        let jenis = parseInt(document.getElementById("jenisBangunan").value)
+        let ukuran = parseInt(document.getElementById("ukuranBangunan").value)
+        let hasil = ''
+        //pilihan 1
+        if (jenis == bangunan.length - 2) {
+            for (i = 0; i < ukuran; i++) {
+                for (j = 0; j < ukuran; j++) {
+                    hasil += '*&nbsp'
+                }
+                if (i < ukuran - 1) {
+                    hasil += '<br>'
+                } else {
+                    break
+                }
+
+            }
+        }
+        //pilihan 2
+        else if (jenis == bangunan.length - 1) {
+            for (i = 0; i < ukuran; i++) {
+                for (j = 0; j <= i; j++) {
+                    hasil += '*&nbsp'
+                }
+                if (i < ukuran - 1) {
+                    hasil += '<br>'
+                } else {
+                    break
+                }
+            }
+        }
+        //pilihan 3
+        else if (jenis == bangunan.length) {
+            for (i = 0; i < ukuran; i++) {
+                for (k = ukuran - 1; k > i; k--) {
+                    hasil += '&nbsp&nbsp&nbsp'
+                }
+                for (j = 0; j <= i; j++) {
+                    hasil += '*&nbsp'
+                }
+                if (i < ukuran - 1) {
+                    hasil += '<br>'
+                } else {
+                    break
+                }
+            }
+        }
+        document.getElementById("bentukBangunan").innerHTML = hasil
+        document.getElementById("jenisBangunan").value = ''
+        document.getElementById("ukuranBangunan").value = ''
+    }
+
+    //HASILNYA TAMPIL DI CONSOLE.LOG ATAU ALERT//
+    // const liatBangunan = () => {
+    //     let jenis = parseInt(document.getElementById("jenisBangunan").value)
+    //     let ukuran = parseInt(document.getElementById("ukuranBangunan").value)
+    //     let hasil = ''
+    //     //pilihan 1
+    //     if (jenis == bangunan.length - 2) {
+    //         for (i = 0; i < ukuran; i++) {
+    //             for (j = 0; j < ukuran; j++) {
+    //                 hasil += '*'
+    //             }
+    //             if (i < ukuran - 1) {
+    //                 hasil += '\n'
+    //             } else {
+    //                 break
+    //             }
+
+    //         }
+    //     }
+    //     //pilihan 2
+    //     else if (jenis == bangunan.length - 1) {
+    //         for (i = 0; i < ukuran; i++) {
+    //             for (j = 0; j <= i; j++) {
+    //                 hasil += '*'
+    //             }
+    //             if (i < ukuran - 1) {
+    //                 hasil += '\n'
+    //             } else {
+    //                 break
+    //             }
+    //         }
+    //     }
+    //     //pilihan 3
+    //     else if (jenis == bangunan.length) {
+    //         for (i = 0; i < ukuran; i++) {
+    //             for (k = ukuran - 1; k > i; k--) {
+    //                 hasil += ' '
+    //             }
+    //             for (j = 0; j <= i; j++) {
+    //                 hasil += '*'
+    //             }
+    //             if (i < ukuran - 1) {
+    //                 hasil += '\n'
+    //             } else {
+    //                 break
+    //             }
+    //         }
+    //     }
+    //     console.log(hasil)
+    //     // alert(hasil)
+    //     document.getElementById("jenisBangunan").value = ''
+    //     document.getElementById("ukuranBangunan").value = ''
+    // }
+</script>
+
+</html>

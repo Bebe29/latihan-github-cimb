@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        fieldset {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 800px;
+            margin: auto;
+        }
+
+        table,
+        tr,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            padding: 5px;
+        }
+    </style>
+    <!-- From Filter Data-->
+    <fieldset>
+        <legend>Filter</legend>
+        <p>Nama: <input type="text" id="filterNama" onkeyup="filterData()"></p>
+        <p>Harga: <input type="number" id="filterMinHrg" onkeyup="filterData()"> - <input type="number"
+                id="filterMaxHrg" onkeyup="filterData()"></p>
+        <p>Category:
+            <select id="filterCategory" onchange="filterData()">
+            </select>
+        </p>
+    </fieldset>
+    <!-- From Input Data -->
+    <fieldset>
+        <legend>Input Data</legend>
+        <table>
+            <tr>
+                <td><input type="text" id="inputNama" placeholder="Nama"></td>
+                <td><input type="number" id="inputHarga" placeholder="Harga"></td>
+                <td><input list="dataList" id="inputCategory" placeholder="Category">
+                    <datalist id="dataList"></datalist>
+                </td>
+                <td><input type="number" id="inputStock" placeholder="Stock"></td>
+            </tr>
+        </table>
+        <br><input id="inputBtn" type="button" value="Input" onclick="inputData()">
+        <h4 id="notifField"></h4>
+    </fieldset>
+    <!-- Form Tabel Data -->
+    <fieldset>
+        <legend>Tabel Data</legend>
+        <table>
+            <thead>
+                <tr>
+                    <td onclick="sortData('')"><strong>ID</strong></td>
+                    <td onclick="sortData('')"><strong>Category</strong></td>
+                    <td onclick="sortData('')"><strong>Nama</strong></td>
+                    <td onclick="sortData('')"><strong>Price<strong></td>
+                    <td onclick="sortData('')"><strong>Stock<strong></td>
+                    <td><strong>Buy<strong></td>
+                    <td colspan="2"><strong>Action</strong></td>
+                </tr>
+            </thead>
+            <tbody id="dataBody">
+            </tbody>
+        </table>
+        <h4 id="notifData"></h4>
+    </fieldset>
+    <!-- Form Cart -->
+    <fieldset>
+        <legend>Cart</legend>
+        <table>
+            <thead>
+                <tr>
+                    <td onclick="sortData('')"><strong>ID</strong></td>
+                    <td onclick="sortData('')"><strong>Category</strong></td>
+                    <td onclick="sortData('')"><strong>Nama</strong></td>
+                    <td onclick="sortData('')"><strong>Price<strong></td>
+                    <td onclick="sortData('')"><strong>Qty<strong></td>
+                    <td><strong>Action</strong></td>
+                </tr>
+            </thead>
+            <tbody id="cartBody">
+            </tbody>
+        </table>
+        <br><input id="paymentBtn" type="button" value="Payment" onclick="renderPayment()">
+    </fieldset>
+    <!-- Form Paymet -->
+    <fieldset>
+        <legend>Payment</legend>
+        <h3>Transaction Detail</h3>
+        <div id="paymentDetail"></div>
+    </fieldset>
+</body>
+<script src="./templatejava.js">
+
+</script>
+
+</html>

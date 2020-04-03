@@ -54,20 +54,10 @@ const pascal = size => {
       if ((j == 0 && i >= 0) || (j == i && i >= 0)) {
         arr[i].push(1);
       } else {
-        let idx;
-        if (i % 2 == 0) {
-          idx = i / 2;
-          if (j == idx) {
-            arr[i].push(arr[i - 1][idx - 1] + arr[i - 1][idx]);
-          } else {
-            arr[i].push(arr[i-1][j-1] + arr[i-1][j])
-          }
-        } else {
           arr[i].push(arr[i-1][j-1] + arr[i-1][j]);
-        }
       }
     }
   }
   return arr;
 };
-console.log(pascal(6));
+console.log(pascal(10));

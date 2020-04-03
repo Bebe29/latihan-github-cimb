@@ -58,11 +58,11 @@
         <table>
             <thead>
                 <tr>
-                    <td onclick="sortData('')"><strong>ID</strong></td>
-                    <td onclick="sortData('')"><strong>Category</strong></td>
-                    <td onclick="sortData('')"><strong>Nama</strong></td>
-                    <td onclick="sortData('')"><strong>Price<strong></td>
-                    <td onclick="sortData('')"><strong>Stock<strong></td>
+                    <td><strong>ID</strong></td>
+                    <td><strong>Category</strong></td>
+                    <td><strong>Nama</strong></td>
+                    <td><strong>Price<strong></td>
+                    <td><strong>Stock<strong></td>
                     <td><strong>Buy<strong></td>
                     <td colspan="2"><strong>Action</strong></td>
                 </tr>
@@ -78,11 +78,11 @@
         <table>
             <thead>
                 <tr>
-                    <td onclick="sortData('')"><strong>ID</strong></td>
-                    <td onclick="sortData('')"><strong>Category</strong></td>
-                    <td onclick="sortData('')"><strong>Nama</strong></td>
-                    <td onclick="sortData('')"><strong>Price<strong></td>
-                    <td onclick="sortData('')"><strong>Qty<strong></td>
+                    <td><strong>ID</strong></td>
+                    <td><strong>Category</strong></td>
+                    <td><strong>Nama</strong></td>
+                    <td><strong>Price<strong></td>
+                    <td><strong>Qty<strong></td>
                     <td><strong>Action</strong></td>
                 </tr>
             </thead>
@@ -201,8 +201,9 @@
         if (inputNama && inputHarga && inputCategory && inputStock) {
             let newData = new Product(inputId, inputCategory, inputNama, inputHarga, inputStock)
             let item = productData.find((val) => val.category.toLowerCase() == inputCategory.toLowerCase())
+            let itemCategory = arrCategory.find((val) => val.toLowerCase() == inputCategory.toLowerCase())
 
-            if (!item) {
+            if (!item && !itemCategory) {
                 arrCategory.push(inputCategory)
             }
             productData.push(newData)
@@ -245,7 +246,7 @@
         let indexItem = productData.findIndex((val) => val.id == id)
         if (isInCart) {
             let idx = arrCart.findIndex((val) => val.id == isInCart.id)
-            if (arrCart[idx].qty >= arrCart[idx].stock) {
+            if (productData[indexItem].stock == 0) {
                 alert('Stock sudah habis')
             } else {
                 arrCart[idx].qty++
@@ -330,7 +331,8 @@
         let subTotal = 0
         let pajak = 0
         let totalPrice = 0
-        let time = new Date().getTime()
+        let time = 30
+
         arrCart.forEach(({ category, nama, harga, qty }) => {
             totalCart += `<p>${category} | ${nama} | Rp ${harga} X ${qty} = Rp ${harga * qty}</p>`
             subTotal += harga * qty
@@ -348,34 +350,57 @@
         <h4>Total : Rp ${totalPrice}</h4>
         `
         selector("paymentDetail").innerHTML += `
+        <h5 id="interval"></h5>
+        `
+        selector("interval").innerHTML = `Waktu bayar sisa ${time} detik`
+        timer = setInterval(() => {
+            if (time == 0) {
+                alert('Waktu untuk pembayaran sudah habis')
+                clearPayment('waktuHabis')
+                clearInterval(timer)
+            }
+            time--
+            selector("interval").innerHTML = `Waktu bayar sisa ${time} detik`
+        }, 1000)
+
+        selector("paymentDetail").innerHTML += `
         <input type="number" value="${userPayment}" id="userPayment">
         <input type="button" value="Pay" onclick="userPay(${totalPrice})">`
     }
 
     const userPay = (totalBayar) => {
-            let userInput = selector("userPayment").value
+        let userInput = selector("userPayment").value
         if (userInput > totalBayar) {
             alert(`Kembalian anda Rp ${userInput - totalBayar}`)
-            successPayment()
+            clearPayment('bayarBerhasil')
+            clearInterval(timer)
         } else if (userInput < totalBayar) {
             alert(`Maaf uang anda tidak cukup\nUang anda kurang Rp ${totalBayar - userInput}\nMohon input ulang uang untuk pembayaran`)
             selector("userPayment").value = ''
         } else if (userInput == totalBayar) {
             alert(`Terimakasih telah membayar dengan uang pas`)
-            successPayment()
+            clearPayment('bayarBerhasil')
+            clearInterval(timer)
         }
     }
 
-    const successPayment = () => {
-        // arrCart.forEach(({ id, qty }) => {
-        //     let indexItem = productData.findIndex((val) => val.id == id)
-        //     productData[indexItem].stock -= qty
-        // })
-        // clearTimeout(time)
+    const clearPayment = (param) => {
         selector("paymentDetail").innerHTML = ''
-        arrCart = []
+        clearCart(param)
         renderCart()
-        // renderData()
+        renderData()
+    }
+
+    const clearCart = (param) => {
+        if (param == 'waktuHabis') {
+            arrCart.forEach(({ id, qty }) => {
+                let indexItem = productData.findIndex((val) => val.id == id)
+                productData[indexItem].stock += qty
+            })
+            arrCart = []
+        } else if (param == 'bayarBerhasil') {
+            arrCart = []
+        }
     }
 </script>
 

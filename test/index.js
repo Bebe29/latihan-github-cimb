@@ -38,7 +38,7 @@ const liatBangunan = () => {
     } else if (jenis == bangunan.length) { //pilihan 3
         for (i=0;i<ukuran;i++){
             for (k=ukuran-1; k>i;k--){
-                hasil += '-'
+                hasil += ' '
             }
             for (j=0; j<=i;j++){
                 hasil += '*'

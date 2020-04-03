@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let arrInput = []
+    do {
+        input = parseInt(prompt('Input'))
+        if (!isNaN(input) && input !== null) {
+            arrInput.push(input)
+        } else {
+            break
+        }
+    } while (input !== null)
+    arrInput.sort((a, b) => a - b)
+    let maxNum = Math.max(...arrInput)
+    let minNum = Math.min(...arrInput)
+    console.log(arrInput)
+    console.log(`Angka terbesar input: ${maxNum}`)
+    console.log(`Angka terkecil input: ${minNum}`)
+</script>
+
+</html>
